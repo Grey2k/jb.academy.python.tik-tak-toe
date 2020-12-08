@@ -37,17 +37,17 @@ def input_to_field(command: str) -> list:
     return field
 
 
-field0 = [
-    [X, Z, X],
-    [Z, _, Z],
-    [X, X, _],
-]
-
-field1 = [
-    [X, Z, X],
-    [Z, X, Z],
-    [X, X, Z],
-]
+# field0 = [
+#     [X, Z, X],
+#     [Z, _, Z],
+#     [X, X, _],
+# ]
+#
+# field1 = [
+#     [X, Z, X],
+#     [Z, X, Z],
+#     [X, X, Z],
+# ]
 
 # print_field(field0)
 # print('---')
