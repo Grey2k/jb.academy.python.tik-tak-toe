@@ -1,10 +1,27 @@
 from typing import Optional
 
 # write your code here
+# EXAMPLES:
+#
+# field0 = [
+#     [X, Z, X],
+#     [Z, _, Z],
+#     [X, X, _],
+# ]
+#
+# field1 = [
+#     [X, Z, X],
+#     [Z, X, Z],
+#     [X, X, Z],
+# ]
+
+# print_field(field0)
+# print('---')
+# print_field(field1)
 
 X = 'X'
 Z = 'O'
-S = '_'
+S = ' '
 
 STATE_X_WINS = 'X wins'
 STATE_O_WINS = 'O wins'
@@ -15,9 +32,9 @@ STATE_IMPOSSIBLE = 'Impossible'
 N = 3
 
 
-def print_field(field: list) -> None:
+def print_field(field_list: list) -> None:
     print("---------")
-    for row in field:
+    for row in field_list:
         print("| " + " ".join(row) + " |")
     print("---------")
 
@@ -46,29 +63,6 @@ def input_to_field(command: str) -> list:
             rows += 1
 
     return field_list
-
-
-# field0 = [
-#     [X, Z, X],
-#     [Z, _, Z],
-#     [X, X, _],
-# ]
-#
-# field1 = [
-#     [X, Z, X],
-#     [Z, X, Z],
-#     [X, X, Z],
-# ]
-
-# print_field(field0)
-# print('---')
-# print_field(field1)
-
-print("Enter cells:")
-cells = input()
-
-field = input_to_field(cells)
-print_field(field)
 
 
 def is_impossible(field_list: list) -> bool:
@@ -155,4 +149,38 @@ def game_state(field_list: list):
     return STATE_DRAW if is_finished(field_list) else STATE_NOT_FINISHED
 
 
+def is_occupied(field_list: list, coord_x: int, coord_y: int) -> bool:
+    try:
+        if field_list[coord_x][coord_y] == S:
+            return False
+    except Exception as e:
+        print('Exception: {}', e)
+        return True
+
+    return True
+
+
+print("Enter cells:")
+cells = input()
+
+field = input_to_field(cells)
+print_field(field)
 print(game_state(field))
+
+while True:
+    print("Enter the coordinates:")
+
+    try:
+        x, y = [int(coord) - 1 for coord in input().split()]
+    except ValueError:
+        print('You should enter numbers!')
+        continue
+
+    if is_occupied(field, x, y):
+        print('This cell is occupied! Choose another one!')
+        continue
+
+    field[x][y] = X
+    break
+
+print_field(field)

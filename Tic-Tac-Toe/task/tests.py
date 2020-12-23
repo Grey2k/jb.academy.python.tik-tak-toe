@@ -39,7 +39,7 @@ class TicTacToeField:
 
             for row in range(3):
                 for col in range(3):
-                    index = (2 - row) * 3 + col
+                    index = row * 3 + col
                     self.field[row][col] = get_state(field[index])
 
     def equal_to(self, other) -> bool:
@@ -98,7 +98,11 @@ class TicTacToeField:
             [None for _ in range(3)] for _ in range(3)
         ]
 
-        y: int = 2
+        y: int = 0
+
+        if len(lines) != 3:
+            raise WrongAnswer(
+                f"Tic-Tac-Toe field should contain 3 rows, found {len(lines)}")
 
         for line in lines:
             cols = line[2], line[4], line[6]
@@ -107,9 +111,12 @@ class TicTacToeField:
                 state = get_state(c)
                 if state is None:
                     return None
-                field[y][x] = state
+                try:
+                    field[y][x] = state
+                except IndexError:
+                    pass
                 x += 1
-            y -= 1
+            y += 1
 
         return TicTacToeField(constructed=field)
 
@@ -220,8 +227,8 @@ class TicTacToeTest(StageTest):
             str_nums = input.split()
             x = int(str_nums[0])
             y = int(str_nums[1])
-            if correct_next.field[y - 1][x - 1] == FieldState.FREE:
-                correct_next.field[y - 1][x - 1] = FieldState.X
+            if correct_next.field[x - 1][y - 1] == FieldState.FREE:
+                correct_next.field[x - 1][y - 1] = FieldState.X
                 break
 
         if not curr.equal_to(correct_curr):
