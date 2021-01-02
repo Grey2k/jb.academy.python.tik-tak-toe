@@ -137,7 +137,7 @@ def is_finished(field_list: list) -> bool:
     return empties == 0
 
 
-def game_state(field_list: list):
+def game_state(field_list: list) -> str:
     if is_impossible(field_list):
         return STATE_IMPOSSIBLE
 
@@ -160,12 +160,16 @@ def is_occupied(field_list: list, coord_x: int, coord_y: int) -> bool:
     return True
 
 
-print("Enter cells:")
-cells = input()
+# print("Enter cells:")
+# cells = input()
+#
+# field = input_to_field(cells)
+# print_field(field)
+# print(game_state(field))
 
-field = input_to_field(cells)
-print_field(field)
-print(game_state(field))
+field = input_to_field(S * (N ** 2))
+current_plays = X
+state = STATE_NOT_FINISHED
 
 while True:
     print("Enter the coordinates:")
@@ -180,7 +184,17 @@ while True:
         print('This cell is occupied! Choose another one!')
         continue
 
-    field[x][y] = X
+    field[x][y] = current_plays
+
+    # change player
+    current_plays = Z if current_plays == X else X
+    print_field(field)
+
+    state = game_state(field)
+
+    if state == STATE_NOT_FINISHED:
+        continue
+
     break
 
-print_field(field)
+print(state)
